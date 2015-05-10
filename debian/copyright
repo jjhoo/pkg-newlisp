@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: newlisp
-Source: <http://www.newlisp.com/>
+Source: <http://www.newlisp.org/>
 Files-Excluded: guiserver/guiserver.jar
 
 Files: *
