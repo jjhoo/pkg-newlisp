@@ -1,0 +1,59 @@
+Index: newlisp-10.6.2/makefile_original_install
+===================================================================
+--- newlisp-10.6.2.orig/makefile_original_install
++++ newlisp-10.6.2/makefile_original_install
+@@ -26,14 +26,22 @@ GUISERVER = $(prefix)/share/newlisp/guis
+ # newLISP is a scripting language for developing web applications and programs 
+ # in general and in the domains of artificial intelligence (AI) and statistics.
+ 
+-install:
+-	-install -d $(datadir)/newlisp
++install: install_bin install_common install_guiserver
++
++install_bin:
++	-install -d $(bindir)
++	-install -d $(mandir)/man1
++	-rm -f $(bindir)/newlisp
++	-install -m 755  newlisp $(bindir)/newlisp-$(VERSION)
++	-ln -s newlisp-$(VERSION) $(bindir)/newlisp
++	-install -m 644 doc/newlisp.1 $(mandir)/man1/newlisp.1
++
++install_common:
++	-install -d $(bindir)
+ 	-install -d $(datadir)/newlisp/modules
+ 	-install -d $(datadir)/newlisp/util
+ 	-install -d $(datadir)/doc/newlisp
+-	-rm $(bindir)/newlisp
+-	-install -m 755  newlisp $(bindir)/newlisp-$(VERSION)
+-	-ln -s $(bindir)/newlisp-$(VERSION) $(bindir)/newlisp
++	-install -d $(mandir)/man1
+ 	-install -m 755 util/newlispdoc $(bindir)/newlispdoc
+ 	-install -m 644 util/syntax.cgi $(datadir)/newlisp/util/syntax.cgi
+ 	-install -m 644 util/newlisp.vim $(datadir)/newlisp/util/newlisp.vim
+@@ -45,7 +53,6 @@ install:
+ 	-install -m 644 doc/CodePatterns.html $(datadir)/doc/newlisp/CodePatterns.html
+ 	-install -m 644 doc/newLISPdoc.html $(datadir)/doc/newlisp/newLISPdoc.html
+ 	-install -m 644 doc/newLISP-$(VERSION)-Release.html $(datadir)/doc/newlisp/newlisp-$(Version)-Release.html
+-	-install -m 644 doc/newlisp.1 $(mandir)/man1/newlisp.1
+ 	-install -m 644 doc/newlispdoc.1 $(mandir)/man1/newlispdoc.1
+ 	-install -m 644 modules/canvas.lsp $(datadir)/newlisp/modules/canvas.lsp
+ 	-install -m 644 modules/cgi.lsp $(datadir)/newlisp/modules/cgi.lsp
+@@ -67,13 +74,17 @@ install:
+ 	-install -m 644 modules/unix.lsp $(datadir)/newlisp/modules/unix.lsp
+ 	-install -m 644 modules/xmlrpc-client.lsp $(datadir)/newlisp/modules/xmlrpc-client.lsp
+ 	-install -m 644 modules/zlib.lsp $(datadir)/newlisp/modules/zlib.lsp
++
++	-install -m 644 guiserver/images/newLISP128.png $(datadir)/newlisp/newLISP128.png
++
++install_guiserver:
+ 	# GUI-Server install
++	-install -d $(bindir)
+ 	-install -d $(datadir)/newlisp/guiserver
+ 	-install -d $(datadir)/doc/newlisp/guiserver
+ 	-install -m 755 guiserver/newlisp-edit.lsp $(bindir)/newlisp-edit
+ 	-install -m 644 guiserver/guiserver.jar $(datadir)/newlisp/guiserver.jar
+ 	-install -m 644 guiserver/guiserver.lsp $(datadir)/newlisp/guiserver.lsp
+-	-install -m 644 guiserver/images/newLISP128.png $(datadir)/newlisp/newLISP128.png
+ 	-install -m 644 guiserver/COPYING $(datadir)/doc/newlisp/guiserver/COPYING
+ 	-install -m 644 guiserver/index.html $(datadir)/doc/newlisp/guiserver/index.html
+ 	-install -m 644 guiserver/guiserver.lsp.html $(datadir)/doc/newlisp/guiserver/guiserver.lsp.html

@@ -1,0 +1,36 @@
+Source: newlisp
+Section: lisp
+Priority: optional
+Maintainer: Jani Hakala <jjhakala@gmail.com>
+Build-Depends: debhelper (>= 9), autotools-dev,
+    libffi-dev, libreadline-dev
+Build-Depends-Indep: debhelper (>= 9), default-jdk
+Standards-Version: 3.9.5
+Homepage: http://www.newlisp.org/
+#Vcs-Git: git://anonscm.debian.org/collab-maint/newlisp.git
+#Vcs-Browser: http://anonscm.debian.org/?p=collab-maint/newlisp.git;a=summary
+
+Package: newlisp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+    newlisp-common (= ${binary:Version})
+Description: a Lisp-like, general-purpose scripting language
+ newLISP is a Lisp-like, general-purpose scripting language. It is especially
+ well-suited for applications in AI, simulation, natural language processing,
+ big data, machine learning and statistics. Because of its small resource
+ requirements, newLISP is excellent for embedded systems applications. Most
+ of the functions you will ever need are already built in. This includes
+ networking functions, support for distributed and multicore processing,
+ and Bayesian statistics.
+
+Package: newlisp-common
+Architecture: all
+Depends: newlisp (= ${binary:Version}), default-jre, ${misc:Depends}
+Description: Java-based GUI functionality for newlisp
+ Java-based GUI functionality for newlisp.
+
+Package: newlisp-guiserver
+Architecture: all
+Depends: newlisp (= ${binary:Version}), default-jre, ${misc:Depends}
+Description: Java-based GUI functionality for newlisp
+ Java-based GUI functionality for newlisp.

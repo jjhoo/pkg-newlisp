@@ -1,0 +1,16 @@
+--- newlisp-10.6.2.orig/modules/postgres.lsp
++++ newlisp-10.6.2/modules/postgres.lsp
+@@ -96,9 +96,11 @@
+ 
+ (set 'files '(
+ 	"/usr/local/lib/libpq.so.5.1" ; OpenBSD 4.6
++	"/usr/lib/x86_64-linux-gnu/libpq.so.5" ; Debian Jessie 64bit
++	"/usr/lib/i386-linux-gnu/libpq.so.5" ; Debian Jessie 32bit
+ 	"/usr/lib/libpq.so" ; CentOS or other Linux
+-    "/usr/lib64/libpq.so" ; Linux 64bit
+-	"/usr/lib/libpq.so.5.1" ; Debian
++	"/usr/lib64/libpq.so" ; Linux 64bit
++	"/usr/lib/libpq.so.5" ; Debian Wheezy
+ 	"/usr/local/pgsql/lib/libpq.dylib" ; Mac OS X
+ 	"c:/Program Files/PostgreSQL/8.3/bin/libpq.dll" ; Win32
+ ))

@@ -1,0 +1,70 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#DH_VERBOSE = 1
+
+top_dir := $(shell pwd)
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+NUMJOBS = 1
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+ NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+endif
+
+# main packaging script based on dh7 syntax
+override_dh_auto_build-arch:
+	make -j$(NUMJOBS) -f makefile_build
+
+override_dh_auto_build-indep:
+	make -j$(NUMJOBS) JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8" -C guiserver
+
+override_dh_auto_clean-arch:
+	rm -f $(top_dir)/hw.lsp
+	rm -f $(top_dir)/link.lsp
+	rm -f $(top_dir)/*.o
+	rm -f $(top_dir)/newlisp
+	rm -f $(top_dir)/makefile_build
+	rm -f $(top_dir)/makefile_install
+	dh_clean
+
+override_dh_auto_clean-indep:
+	rm -f $(top_dir)/guiserver/guiserver.jar
+	dh_clean
+
+override_dh_auto_install-arch:
+	make -f makefile_original_install prefix=$(top_dir)/debian/tmp/usr install_bin
+
+override_dh_auto_install-indep:
+	make -f makefile_original_install prefix=$(top_dir)/debian/tmp/usr install_common
+	make -f makefile_original_install prefix=$(top_dir)/debian/tmp/usr install_guiserver
+
+override_dh_auto_test:
+
+get-orig-source:
+	uscan --repack --compression xz --force-download
+
+%:
+	dh $@
+
+# debmake generated override targets
+# This is example for Cmake (See http://bugs.debian.org/641051 )
+#override_dh_auto_configure:
+#	dh_auto_configure -- \
+#	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
+
+
+
+

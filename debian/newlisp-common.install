@@ -1,0 +1,7 @@
+usr/bin/newlispdoc
+usr/share/doc/newlisp/CREDITS
+usr/share/doc/newlisp/*.html
+usr/share/newlisp/modules/*
+usr/share/newlisp/util/*
+usr/share/newlisp/newLISP128.png
+usr/share/man/man1/newlispdoc.*
